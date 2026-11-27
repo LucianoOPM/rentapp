@@ -11,7 +11,7 @@ Se cierra cuando la administradora puede entrar con su usuario y contraseña y v
 - [x] Configurar Better Auth con el plugin `username`, los campos `role` y `phone`, y el cambio obligatorio de contraseña en el primer acceso.
 - [x] Escribir el middleware de sesión y la protección de `/admin` y `/app`.
 - [x] Configurar Cloudinary (activar la entrega de PDFs y subir todo con type authenticated), escribir el módulo storage.ts y el endpoint `/api/files/[publicId]` que reenvía los archivos.
-- [ ] Configurar Resend: registrar la cuenta con el correo de `ADMIN_EMAIL` y usar `onboarding@resend.dev` como remitente mientras no haya dominio propio ([detalles](architecture.md#correo)).
+- [x] Configurar Resend: registrar la cuenta con el correo de `ADMIN_EMAIL` y usar `onboarding@resend.dev` como remitente mientras no haya dominio propio ([detalles](architecture.md#correo)).
 - [ ] Cargar los datos iniciales: los 3 departamentos y la cuenta de la administradora.
 - [ ] Hacer el primer despliegue en Netlify con las variables de entorno y programar un respaldo periódico con pg\_dump.
 

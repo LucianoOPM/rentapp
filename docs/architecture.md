@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos).
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos). El envío de correos está listo, pero la app todavía no lo usa.
 
 Todo vive en un único proyecto de Astro desplegado en Netlify. Ese proyecto habla con tres servicios externos: Neon para los datos, Cloudinary para los archivos y Resend para los correos. No hay un backend separado, y todos los servicios están en su plan gratuito.
 
@@ -40,7 +40,7 @@ El servidor sigue el flujo `controlador → servicio → repositorio` ([decisió
 
 - **Servicios** (`src/lib/services/`): reglas de negocio. Reciben repositorios y adaptadores por el constructor. No importan `db`, `astro:env` ni instancias concretas; solo sus tipos.
 - **Repositorios** (`src/lib/repositories/`): las consultas propias con Drizzle. Reciben `db` por el constructor. Cada uno exporta la interfaz que usan los servicios y su implementación.
-- **Adaptadores**: Better Auth (`auth.ts`) almacenamiento de archivos (`storage.ts`) y, cuando exista, correo (`sendEmail()`). Better Auth consulta sus tablas con su propio adaptador.
+- **Adaptadores**: Better Auth (`auth.ts`) almacenamiento de archivos (`storage.ts`) y correo (`email.ts`, con `sendEmail()`). Better Auth consulta sus tablas con su propio adaptador.
 - **Composición** (`src/lib/container.ts`): único lugar que crea servicios y repositorios y les pasa sus dependencias. Los controladores toman los servicios de aquí.
 
 La generación del PDF firmado va en la capa de dominio.
@@ -70,6 +70,7 @@ La administradora cambia la contraseña en la app de Omada y la escribe en la pl
 
 ## Correo
 
+- `src/lib/email.ts` envía por la API HTTP de Resend, sin SDK, y siempre a `ADMIN_EMAIL`. Todavía no está en `container.ts` ([cómo conectarlo](../README.md#usarlo-en-el-código)).
 - Se empieza sin dominio propio: el remitente (`MAIL_FROM`) es `onboarding@resend.dev`.
 - Ese remitente [solo envía al correo de la cuenta de Resend](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain), así que la cuenta se registra con el mismo correo que `ADMIN_EMAIL`. Puede ser de Gmail o Hotmail.
 - No se puede enviar desde una dirección `@gmail.com` ni `@hotmail.com`: Resend exige verificar el dominio del remitente por DNS y esos dominios son de terceros (deducido de ese requisito).
