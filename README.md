@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal. Todavía no hay protección de rutas ni roles. La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales). La Fase 0 está en curso.
 
 ## Requisitos
 
@@ -59,6 +59,7 @@ Después entra en <http://localhost:4321/login>.
 | `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
 | `node --test tests/password-rules.test.mjs` | Prueba las reglas del cambio de contraseña |
 | `node --test tests/auth-service.test.mjs` | Prueba el servicio de acceso con dependencias falsas |
+| `node --test tests/route-access.test.mjs` | Prueba las reglas de acceso por ruta y rol |
 
 ## Migraciones en producción (Neon)
 
