@@ -1,7 +1,7 @@
 import { ActionError, defineAction } from 'astro:actions';
 import { APIError } from 'better-auth/api';
-import { auth, changeOwnPassword } from '@lib/auth';
 import { applyAuthCookies } from '@lib/auth-cookies';
+import { authService } from '@lib/container';
 import { changePasswordInput, loginInput } from '@lib/password-rules';
 
 const unexpected = (error: unknown) => {
@@ -15,17 +15,9 @@ export const server = {
     input: loginInput,
     handler: async (input, context) => {
       try {
-        const { headers } = await auth.api.signInUsername({
-          body: input,
-          headers: context.request.headers,
-          returnHeaders: true,
-        });
+        const { headers, mustChangePassword } = await authService.login(input, context.request.headers);
         applyAuthCookies(headers, context.cookies);
-        // La respuesta del acceso no tipa los campos propios; se leen de la sesión recién creada.
-        const cookie = headers.getSetCookie().map((c) => c.split(';')[0]).join('; ');
-        const session = await auth.api.getSession({ headers: new Headers({ cookie }) });
-        if (!session) throw new Error('La sesión recién creada no se pudo leer');
-        return { mustChangePassword: session.user.mustChangePassword === true };
+        return { mustChangePassword };
       } catch (error) {
         if (error instanceof APIError && error.statusCode < 500) {
           throw new ActionError({ code: 'UNAUTHORIZED', message: 'Usuario o contraseña incorrectos.' });
@@ -40,7 +32,7 @@ export const server = {
     input: changePasswordInput,
     handler: async ({ currentPassword, newPassword }, context) => {
       try {
-        const headers = await changeOwnPassword(context.request.headers, currentPassword, newPassword);
+        const headers = await authService.changeOwnPassword(context.request.headers, currentPassword, newPassword);
         applyAuthCookies(headers, context.cookies);
       } catch (error) {
         if (error instanceof APIError && error.body?.code === 'INVALID_PASSWORD') {
@@ -58,7 +50,7 @@ export const server = {
     accept: 'form',
     handler: async (_input, context) => {
       try {
-        const { headers } = await auth.api.signOut({ headers: context.request.headers, returnHeaders: true });
+        const headers = await authService.logout(context.request.headers);
         applyAuthCookies(headers, context.cookies);
       } catch (error) {
         throw unexpected(error);

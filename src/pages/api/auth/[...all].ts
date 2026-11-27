@@ -1,4 +1,4 @@
 import type { APIRoute } from 'astro';
-import { auth } from '@lib/auth';
+import { authService } from '@lib/container';
 
-export const ALL: APIRoute = ({ request }) => auth.handler(request);
+export const ALL: APIRoute = ({ request }) => authService.handle(request);

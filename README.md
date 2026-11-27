@@ -58,6 +58,7 @@ Después entra en <http://localhost:4321/login>.
 | `pnpm db:generate` | Genera una migración a partir de `src/lib/schema/` |
 | `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
 | `node --test tests/password-rules.test.mjs` | Prueba las reglas del cambio de contraseña |
+| `node --test tests/auth-service.test.mjs` | Prueba el servicio de acceso con dependencias falsas |
 
 ## Migraciones en producción (Neon)
 
