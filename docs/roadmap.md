@@ -7,7 +7,7 @@ El proyecto avanza en tres fases, y solo se pasa a la siguiente cuando se cumple
 Se cierra cuando la administradora puede entrar con su usuario y contraseña y ver sus 3 departamentos en producción.
 
 - [x] Crear el proyecto de Astro con TypeScript, Tailwind, la integración de React y el adaptador de Netlify. Agregar .nvmrc y .env.example.
-- [ ] Crear la base de datos de producción en Neon (en desarrollo se usa [la rama `dev` de Neon](decisions/016-neon-dev-branch.md)), definir el esquema con Drizzle y correr la primera migración.
+- [x] Crear la base de datos de producción en Neon (en desarrollo se usa [la rama `dev` de Neon](decisions/016-neon-dev-branch.md)), definir el esquema con Drizzle y correr la primera migración.
 - [ ] Configurar Better Auth con el plugin `username`, los campos `role` y `phone`, y el cambio obligatorio de contraseña en el primer acceso.
 - [ ] Escribir el middleware de sesión y la protección de `/admin` y `/app`.
 - [ ] Configurar Cloudinary (activar la entrega de PDFs y subir todo con type authenticated), escribir el módulo storage.ts y el endpoint `/api/files/[publicId]` que reenvía los archivos.
