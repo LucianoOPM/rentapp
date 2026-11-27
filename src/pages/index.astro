@@ -1,18 +1,27 @@
 ---
-import '@styles/global.css';
+import { actions } from 'astro:actions';
+import { auth } from '@lib/auth';
+import LogoutForm from '../components/LogoutForm.astro';
+import Layout from '../layouts/Layout.astro';
+
+const logout = Astro.getActionResult(actions.logout);
+if (logout && !logout.error) return Astro.redirect('/login');
+
+// shortcut: pantalla provisional y sin renovar la cookie; el middleware (Fase 0, punto 4) redirigirá por rol.
+const session = await auth.api.getSession({ headers: Astro.request.headers });
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Plataforma de rentas</title>
-	</head>
-	<body>
-		<main class="mx-auto max-w-[480px] p-4">
-			<h1 class="text-2xl font-bold">Plataforma de rentas</h1>
-		</main>
-	</body>
-</html>
+<Layout title="Plataforma de rentas">
+	<h1 class="text-2xl font-bold">Plataforma de rentas</h1>
+	{logout?.error && <p role="alert" class="mt-4 text-red-700">{logout.error.message}</p>}
+	{
+		session ? (
+			<>
+				<p class="mt-4">Hola, {session.user.name}.</p>
+				<LogoutForm />
+			</>
+		) : (
+			<a href="/login" class="mt-4 inline-flex min-h-11 items-center underline">Entrar</a>
+		)
+	}
+</Layout>
