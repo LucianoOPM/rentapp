@@ -4,6 +4,12 @@ import { z } from 'astro/zod';
 const required = (message: string) =>
   z.string({ error: message }).min(1, message).max(128, 'La contraseña no puede pasar de 128 caracteres.');
 
+export const loginInput = z.object({
+  // El teclado del celular suele dejar un espacio tras el usuario. La contraseña no se recorta.
+  username: z.string({ error: 'Escribe tu usuario.' }).trim().min(1, 'Escribe tu usuario.'),
+  password: z.string({ error: 'Escribe tu contraseña.' }).min(1, 'Escribe tu contraseña.'),
+});
+
 export const changePasswordInput = z
   .object({
     currentPassword: required('Escribe tu contraseña actual.'),

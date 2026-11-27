@@ -1,24 +1,18 @@
 import { ActionError, defineAction } from 'astro:actions';
-import { z } from 'astro/zod';
 import { APIError } from 'better-auth/api';
 import { auth, changeOwnPassword } from '@lib/auth';
 import { applyAuthCookies } from '@lib/auth-cookies';
-import { changePasswordInput } from '@lib/password-rules';
+import { changePasswordInput, loginInput } from '@lib/password-rules';
 
 const unexpected = (error: unknown) => {
   console.error(error);
   return new ActionError({ code: 'INTERNAL_SERVER_ERROR', message: 'Algo falló. Inténtalo de nuevo.' });
 };
 
-const required = (message: string) => z.string({ error: message }).min(1, message);
-
 export const server = {
   login: defineAction({
     accept: 'form',
-    input: z.object({
-      username: required('Escribe tu usuario.'),
-      password: required('Escribe tu contraseña.'),
-    }),
+    input: loginInput,
     handler: async (input, context) => {
       try {
         const { headers } = await auth.api.signInUsername({

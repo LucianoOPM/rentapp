@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { changePasswordInput } from '../src/lib/password-rules.ts';
+import { changePasswordInput, loginInput } from '../src/lib/password-rules.ts';
 
 const ok = { currentPassword: 'temporal-1', newPassword: 'nueva-clave', confirmPassword: 'nueva-clave' };
 const errorsOf = (patch) => changePasswordInput.safeParse({ ...ok, ...patch }).error?.issues.map((i) => i.message) ?? [];
@@ -14,3 +14,12 @@ test('rechaza repetir la actual', () =>
   assert.ok(errorsOf({ newPassword: 'temporal-1', confirmPassword: 'temporal-1' }).includes('La nueva contraseña debe ser distinta de la actual.')));
 test('pide los campos vacíos en español', () =>
   assert.ok(errorsOf({ currentPassword: null }).includes('Escribe tu contraseña actual.')));
+
+test('el acceso ignora espacios alrededor del usuario, no de la contraseña', () => {
+  assert.deepEqual(loginInput.parse({ username: ' prueba ', password: ' clave con espacios ' }), {
+    username: 'prueba',
+    password: ' clave con espacios ',
+  });
+});
+test('un usuario de puros espacios cuenta como vacío', () =>
+  assert.equal(loginInput.safeParse({ username: '   ', password: 'x' }).error?.issues[0].message, 'Escribe tu usuario.'));
