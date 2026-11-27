@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** el esqueleto de Astro, la documentación y el esquema de la base de datos con su primera migración. La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal. Todavía no hay protección de rutas ni roles. La Fase 0 está en curso.
 
 ## Requisitos
 
@@ -27,7 +27,26 @@ La app corre en tu equipo y la base es la rama `dev` de Neon. Antes de ejecutar 
 DATABASE_URL=postgresql://<rol>:<contraseña>@<host-de-dev>/<base>?sslmode=verify-full
 ```
 
-Deja activa la conexión de `dev`; la de `production` solo se activa para migrar ([pasos](#migraciones-en-producción-neon)). Todavía ninguna página usa la base de datos.
+Deja activa la conexión de `dev`; la de `production` solo se activa para migrar ([pasos](#migraciones-en-producción-neon)). El `.env` también necesita las variables del acceso:
+
+```
+BETTER_AUTH_URL=http://localhost:4321
+BETTER_AUTH_SECRET=<32 caracteres o más>
+```
+
+Para generar el secreto:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"
+```
+
+El registro está cerrado. Para crear un usuario de prueba en `dev` (el script muestra el host de la base y pide confirmación):
+
+```bash
+node scripts/create-test-user.mjs <usuario> <contraseña-temporal>
+```
+
+Después entra en <http://localhost:4321/login>.
 
 ## Scripts
 
@@ -39,6 +58,7 @@ Deja activa la conexión de `dev`; la de `production` solo se activa para migrar
 | `pnpm db:generate` | Genera una migración a partir de `src/lib/schema/` |
 | `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
 | `pnpm db:check` | Comprueba las reglas del esquema sin dejar datos |
+| `node --test tests/password-rules.test.mjs` | Prueba las reglas del cambio de contraseña |
 
 ## Migraciones en producción (Neon)
 

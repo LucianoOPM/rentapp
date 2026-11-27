@@ -1,6 +1,6 @@
 # Permisos y archivos
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro y el esquema de la base de datos.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos y el acceso con usuario y contraseña.
 
 ## Permisos
 

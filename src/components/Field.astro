@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'input'> {
+	name: string;
+	label: string;
+	errors?: string[];
+}
+
+const { name, label, errors, ...input } = Astro.props;
+---
+
+<div>
+	<label for={name} class="mb-1 block font-medium">{label}</label>
+	<input
+		{...input}
+		id={name}
+		name={name}
+		required
+		aria-invalid={errors ? 'true' : undefined}
+		aria-describedby={errors ? `${name}-error` : undefined}
+		class="min-h-11 w-full rounded border border-gray-400 px-3 text-base"
+	/>
+	{errors && <p id={`${name}-error`} class="mt-1 text-red-700">{errors.join(' ')}</p>}
+</div>

@@ -7,6 +7,7 @@ El diseño parte del celular. Cada pantalla responde a una sola pregunta, como "
 | Ruta | Pantalla | Qué muestra y qué permite |
 | --- | --- | --- |
 | `/login` | Entrar | Pide usuario y contraseña. Si es el primer acceso, obliga a cambiar la contraseña temporal. |
+| `/cambiar-contrasena` | Cambiar contraseña | Pide la contraseña actual, la nueva y su confirmación. Se llega al entrar con la contraseña temporal. |
 | `/app` | Inicio | Saldo pendiente, próximo vencimiento, último reporte y accesos a las demás secciones. |
 | `/app/cuenta` | Estado de cuenta | Cargos del mes con su recibo de CFE o agua, botón "Subir comprobante" (cubre el total de los cargos elegidos; en el MVP no hay pagos parciales) e historial de pagos. |
 | `/app/contrato` | Contrato | El PDF y su estado. Si está por firmar, la casilla de aceptación y el recuadro de firma. Si ya está firmado, el botón de descarga. |

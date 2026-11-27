@@ -1,0 +1,23 @@
+---
+import { actions, isInputError } from 'astro:actions';
+import Field from '../components/Field.astro';
+import Layout from '../layouts/Layout.astro';
+
+const result = Astro.getActionResult(actions.login);
+if (result && !result.error) {
+	return Astro.redirect(result.data.mustChangePassword ? '/cambiar-contrasena' : '/');
+}
+
+const fields = isInputError(result?.error) ? result.error.fields : undefined;
+const message = result?.error && !fields ? result.error.message : undefined;
+---
+
+<Layout title="Entrar">
+	<h1 class="mb-4 text-2xl font-bold">Entrar</h1>
+	{message && <p role="alert" class="mb-4 text-red-700">{message}</p>}
+	<form method="POST" action={actions.login} class="space-y-4">
+		<Field name="username" label="Usuario" autocomplete="username" autocapitalize="none" spellcheck="false" errors={fields?.username} />
+		<Field name="password" label="Contraseña" type="password" autocomplete="current-password" errors={fields?.password} />
+		<button class="min-h-11 w-full rounded bg-blue-700 px-4 text-base font-medium text-white">Entrar</button>
+	</form>
+</Layout>

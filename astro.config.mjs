@@ -12,6 +12,8 @@ export default defineConfig({
     schema: {
       // min: sin él, una variable vacía pasa y `pg` usa sus valores por defecto.
       DATABASE_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
+      BETTER_AUTH_SECRET: envField.string({ context: 'server', access: 'secret', min: 32 }),
+      BETTER_AUTH_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
     },
   },
   integrations: [react()],

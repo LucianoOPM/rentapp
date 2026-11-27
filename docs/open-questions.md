@@ -17,6 +17,7 @@
 ## Técnicas
 
 - **Fotos sin JavaScript:** cinco fotos de celular sin reducir casi nunca caben en el límite por envío. ¿Se acepta esa limitación o se permite enviar menos fotos por vez?
+- **Límite de intentos:** `/login` no lo tiene, porque las Actions no pasan por el límite de Better Auth. Resolver antes del primer despliegue.
 - Respaldo con `pg_dump`: falta definir la frecuencia, dónde se ejecuta y dónde se guarda.
 - El adaptador de Netlify activa las sesiones de Astro sobre Netlify Blobs. No usar `Astro.session`, o cambiar su almacenamiento, para cumplir la [decisión 015](decisions/015-portability-rules.md).
 

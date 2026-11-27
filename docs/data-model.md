@@ -1,6 +1,6 @@
 # Modelo de datos
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro y el esquema de la base de datos.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos y el acceso con usuario y contraseña.
 
 Los montos se guardan en centavos (enteros) y las fechas en UTC. Se muestran en la zona `America/Mexico_City`. `start_date`, `end_date` y `due_date` son días de calendario, sin hora ni zona, y `period` es texto `AAAA-MM`. El esquema está en `src/lib/schema/` y las migraciones en `drizzle/`.
 
@@ -23,6 +23,10 @@ Los montos se guardan en centavos (enteros) y las fechas en UTC. Se muestran en 
 | `payment_charge` | `payment_id`, `charge_id` | Una transferencia puede cubrir varios cargos. |
 | `maintenance_report` | `unit_id`, `created_by`, `title`, `description`, `status`, `admin_note`, `resolved_at` | `status`: `received` (recibido), `in_progress` (en proceso), `resolved` (resuelto). |
 | `report_photo` | `report_id`, `file_id` | Máximo 5 fotos por reporte. |
+
+## Usuarios
+
+Better Auth exige un `email` único. A quien no tenga correo se le genera `<usuario>@sin-correo.invalid`, un dominio reservado que no recibe mensajes.
 
 ## Contratos
 
