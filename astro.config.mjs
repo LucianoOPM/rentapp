@@ -14,6 +14,7 @@ export default defineConfig({
       DATABASE_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
       BETTER_AUTH_SECRET: envField.string({ context: 'server', access: 'secret', min: 32 }),
       BETTER_AUTH_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
+      CLOUDINARY_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
     },
   },
   integrations: [react()],

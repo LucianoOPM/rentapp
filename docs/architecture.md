@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña y la protección de rutas por rol.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos).
 
 Todo vive en un único proyecto de Astro desplegado en Netlify. Ese proyecto habla con tres servicios externos: Neon para los datos, Cloudinary para los archivos y Resend para los correos. No hay un backend separado, y todos los servicios están en su plan gratuito.
 
@@ -40,7 +40,7 @@ El servidor sigue el flujo `controlador → servicio → repositorio` ([decisió
 
 - **Servicios** (`src/lib/services/`): reglas de negocio. Reciben repositorios y adaptadores por el constructor. No importan `db`, `astro:env` ni instancias concretas; solo sus tipos.
 - **Repositorios** (`src/lib/repositories/`): las consultas propias con Drizzle. Reciben `db` por el constructor. Cada uno exporta la interfaz que usan los servicios y su implementación.
-- **Adaptadores**: Better Auth (`auth.ts`) y, cuando existan, almacenamiento de archivos (`storage.ts`) y correo (`sendEmail()`). Better Auth consulta sus tablas con su propio adaptador.
+- **Adaptadores**: Better Auth (`auth.ts`) almacenamiento de archivos (`storage.ts`) y, cuando exista, correo (`sendEmail()`). Better Auth consulta sus tablas con su propio adaptador.
 - **Composición** (`src/lib/container.ts`): único lugar que crea servicios y repositorios y les pasa sus dependencias. Los controladores toman los servicios de aquí.
 
 La generación del PDF firmado va en la capa de dominio.
@@ -77,4 +77,4 @@ La administradora cambia la contraseña en la app de Omada y la escribe en la pl
 
 ## Variables de entorno
 
-`DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, `ADMIN_EMAIL`, `WIFI_ENC_KEY`. Todas se documentan sin valores en `.env.example`, y la versión de Node se fija en `.nvmrc`.
+`DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CLOUDINARY_URL`, `RESEND_API_KEY`, `MAIL_FROM`, `ADMIN_EMAIL`, `WIFI_ENC_KEY`. Todas se documentan sin valores en `.env.example`, y la versión de Node se fija en `.nvmrc`.

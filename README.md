@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales). La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales) y la descarga de archivos privados guardados en Cloudinary. La Fase 0 está en curso.
 
 ## Requisitos
 
@@ -34,6 +34,12 @@ BETTER_AUTH_URL=http://localhost:4321
 BETTER_AUTH_SECRET=<32 caracteres o más>
 ```
 
+Y la de Cloudinary, sin la cual la app no arranca. Cópiala del panel de Cloudinary y activa en Settings → Security la opción **Allow delivery of PDF and ZIP files**:
+
+```
+CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name>
+```
+
 Para generar el secreto:
 
 ```bash
@@ -60,6 +66,8 @@ Después entra en <http://localhost:4321/login>.
 | `node --test tests/password-rules.test.mjs` | Prueba las reglas del cambio de contraseña |
 | `node --test tests/auth-service.test.mjs` | Prueba el servicio de acceso con dependencias falsas |
 | `node --test tests/route-access.test.mjs` | Prueba las reglas de acceso por ruta y rol |
+| `node --test tests/*.test.mjs` | Corre todas las pruebas |
+| `node scripts/check-storage.mjs` | Comprueba subida, descarga y borrado contra la cuenta real de Cloudinary |
 
 ## Migraciones en producción (Neon)
 
