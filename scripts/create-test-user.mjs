@@ -7,8 +7,12 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { authOptions } from '../src/lib/auth-options.ts';
-import * as schema from '../src/lib/schema/auth.ts';
+import { account } from '../src/lib/schema/account.ts';
+import { session } from '../src/lib/schema/session.ts';
+import { user } from '../src/lib/schema/user.ts';
+import { verification } from '../src/lib/schema/verification.ts';
 
+const schema = { user, session, account, verification };
 if (existsSync('.env')) process.loadEnvFile();
 if (!process.env.DATABASE_URL) throw new Error('Falta DATABASE_URL');
 

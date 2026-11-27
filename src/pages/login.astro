@@ -1,7 +1,7 @@
 ---
 import { actions, isInputError } from 'astro:actions';
-import Field from '../components/Field.astro';
-import Layout from '../layouts/Layout.astro';
+import Field from '@components/Field.astro';
+import Layout from '@layouts/Layout.astro';
 
 const result = Astro.getActionResult(actions.login);
 if (result && !result.error) {

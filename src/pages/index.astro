@@ -1,14 +1,14 @@
 ---
 import { actions } from 'astro:actions';
-import { auth } from '@lib/auth';
-import LogoutForm from '../components/LogoutForm.astro';
-import Layout from '../layouts/Layout.astro';
+import { authService } from '@lib/container';
+import LogoutForm from '@components/LogoutForm.astro';
+import Layout from '@layouts/Layout.astro';
 
 const logout = Astro.getActionResult(actions.logout);
 if (logout && !logout.error) return Astro.redirect('/login');
 
 // shortcut: pantalla provisional y sin renovar la cookie; el middleware (Fase 0, punto 4) redirigirá por rol.
-const session = await auth.api.getSession({ headers: Astro.request.headers });
+const session = await authService.getSession(Astro.request.headers);
 ---
 
 <Layout title="Plataforma de rentas">

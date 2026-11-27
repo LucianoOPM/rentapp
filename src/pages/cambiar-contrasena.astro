@@ -1,9 +1,9 @@
 ---
 import { actions, isInputError } from 'astro:actions';
-import { auth } from '@lib/auth';
-import Field from '../components/Field.astro';
-import LogoutForm from '../components/LogoutForm.astro';
-import Layout from '../layouts/Layout.astro';
+import { authService } from '@lib/container';
+import Field from '@components/Field.astro';
+import LogoutForm from '@components/LogoutForm.astro';
+import Layout from '@layouts/Layout.astro';
 
 // Va antes de consultar la sesión: tras el cambio, la cookie que llegó con esta petición ya no vale.
 const result = Astro.getActionResult(actions.changePassword);
@@ -13,7 +13,7 @@ const logout = Astro.getActionResult(actions.logout);
 if (logout && !logout.error) return Astro.redirect('/login');
 
 // shortcut: aquí no se renueva la cookie de sesión; lo hará el middleware (Fase 0, punto 4).
-const session = await auth.api.getSession({ headers: Astro.request.headers });
+const session = await authService.getSession(Astro.request.headers);
 if (result?.error?.code === 'UNAUTHORIZED' || !session) return Astro.redirect('/login');
 
 const fields = isInputError(result?.error) ? result.error.fields : undefined;

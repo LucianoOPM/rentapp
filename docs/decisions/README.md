@@ -20,3 +20,4 @@ Las decisiones 001 a 015 se aceptaron el 26 nov 2026 con un mismo criterio: lo m
 | [014](014-docker-database-only.md) | Docker solo para la base de datos local (reemplazada por la 016) | Dockerizar la app, rama de desarrollo en Neon |
 | [015](015-portability-rules.md) | Reglas de portabilidad entre proveedores | Llamar a cada proveedor desde cualquier parte del código |
 | [016](016-neon-dev-branch.md) | Rama `dev` de Neon para desarrollo, sin Docker | PostgreSQL local en Docker |
+| [017](017-layers-dependency-injection.md) | Controlador, servicio y repositorio, con inyección por constructor | Consultas dentro de la lógica de negocio, contenedor de inyección con librería |
