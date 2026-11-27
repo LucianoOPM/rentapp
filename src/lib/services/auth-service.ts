@@ -19,6 +19,11 @@ export class AuthService {
     return this.#auth.api.getSession({ headers });
   }
 
+  /** Como `getSession`, pero devuelve además los headers que renuevan o borran la cookie. */
+  resolveSession(headers: Headers) {
+    return this.#auth.api.getSession({ headers, returnHeaders: true });
+  }
+
   /** Los headers devueltos traen la cookie de la sesión nueva. */
   async login(credentials: { username: string; password: string }, requestHeaders: Headers) {
     const { headers } = await this.#auth.api.signInUsername({

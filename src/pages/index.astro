@@ -1,27 +1,4 @@
 ---
-import { actions } from 'astro:actions';
-import { authService } from '@lib/container';
-import LogoutForm from '@components/LogoutForm.astro';
-import Layout from '@layouts/Layout.astro';
-
-const logout = Astro.getActionResult(actions.logout);
-if (logout && !logout.error) return Astro.redirect('/login');
-
-// shortcut: pantalla provisional y sin renovar la cookie; el middleware (Fase 0, punto 4) redirigirá por rol.
-const session = await authService.getSession(Astro.request.headers);
+// El middleware siempre redirige `/` según la sesión; la página existe para que la ruta exista.
+return Astro.redirect('/login');
 ---
-
-<Layout title="Plataforma de rentas">
-	<h1 class="text-2xl font-bold">Plataforma de rentas</h1>
-	{logout?.error && <p role="alert" class="mt-4 text-red-700">{logout.error.message}</p>}
-	{
-		session ? (
-			<>
-				<p class="mt-4">Hola, {session.user.name}.</p>
-				<LogoutForm />
-			</>
-		) : (
-			<a href="/login" class="mt-4 inline-flex min-h-11 items-center underline">Entrar</a>
-		)
-	}
-</Layout>

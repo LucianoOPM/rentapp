@@ -1,6 +1,6 @@
 # Modelo de datos
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos y el acceso con usuario y contraseña.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña y la protección de rutas por rol.
 
 Los montos se guardan en centavos (enteros) y las fechas en UTC. Se muestran en la zona `America/Mexico_City`. `start_date`, `end_date` y `due_date` son días de calendario, sin hora ni zona, y `period` es texto `AAAA-MM`. El esquema está en `src/lib/schema/` y las migraciones en `drizzle/`.
 

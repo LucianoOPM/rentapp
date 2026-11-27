@@ -1,0 +1,15 @@
+---
+import { actions } from 'astro:actions';
+import LogoutForm from '@components/LogoutForm.astro';
+import Layout from '@layouts/Layout.astro';
+
+const logout = Astro.getActionResult(actions.logout);
+if (logout && !logout.error) return Astro.redirect('/login');
+---
+
+<Layout title="Panel">
+	<h1 class="text-2xl font-bold">Panel</h1>
+	{logout?.error && <p role="alert" class="mt-4 text-red-700">{logout.error.message}</p>}
+	<p class="mt-4">Hola, {Astro.locals.user?.name}.</p>
+	<LogoutForm />
+</Layout>
