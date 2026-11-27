@@ -12,7 +12,9 @@
     "astro": "astro",
     "check": "astro check",
     "db:up": "docker compose up -d",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.14",
