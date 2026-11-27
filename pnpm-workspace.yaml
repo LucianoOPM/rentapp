@@ -1,0 +1,5 @@
+# Sin enlaces simbólicos: al empaquetar para Netlify, Windows los rechaza (EPERM).
+nodeLinker: hoisted
+
+allowBuilds:
+  esbuild: true
