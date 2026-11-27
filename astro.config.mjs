@@ -10,7 +10,8 @@ export default defineConfig({
   output: 'server',
   env: {
     schema: {
-      DATABASE_URL: envField.string({ context: 'server', access: 'secret' }),
+      // min: sin él, una variable vacía pasa y `pg` usa sus valores por defecto.
+      DATABASE_URL: envField.string({ context: 'server', access: 'secret', min: 1 }),
     },
   },
   integrations: [react()],

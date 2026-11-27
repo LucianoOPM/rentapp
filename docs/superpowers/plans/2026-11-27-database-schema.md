@@ -259,10 +259,10 @@ Claude guía y no crea la cuenta, no acepta términos y no recibe la cadena de c
 
 - [ ] **Step 2: Copiar la conexión directa.** En "Connect", desactivar "Connection pooling". El host **no** debe contener `-pooler`. No pegarla en el chat.
 
-- [ ] **Step 3: Migrar** desde PowerShell, en la carpeta del proyecto. Cada línea se ejecuta por separado.
+- [ ] **Step 3: Migrar** desde PowerShell 7.1 o posterior (`pwsh`), en la carpeta del proyecto. Cada línea se ejecuta por separado.
 
 ```powershell
-$env:DATABASE_URL = Read-Host "Pega la conexión directa de Neon"
+$env:DATABASE_URL = Read-Host -MaskInput "Pega la conexión directa de Neon"
 ```
 
 ```powershell

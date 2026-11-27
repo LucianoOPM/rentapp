@@ -44,10 +44,10 @@ Crea el `.env` antes de ejecutar `pnpm db:migrate`. Todavía ninguna página usa
 
 ## Migraciones en producción (Neon)
 
-Se aplican a mano, antes de desplegar un cambio que las necesite. Usa la conexión **directa** de Neon (su host no contiene `-pooler`) y no la guardes en archivos. En PowerShell, ejecuta cada línea por separado:
+Se aplican a mano, antes de desplegar un cambio que las necesite. Usa la conexión **directa** de Neon (su host no contiene `-pooler`) y no la guardes en archivos. En PowerShell 7.1 o posterior (`pwsh`; Windows PowerShell 5.1 no tiene `-MaskInput`), ejecuta cada línea por separado. La cadena no se muestra al pegarla:
 
 ```powershell
-$env:DATABASE_URL = Read-Host "Pega la conexión directa de Neon"
+$env:DATABASE_URL = Read-Host -MaskInput "Pega la conexión directa de Neon"
 ```
 
 ```powershell
