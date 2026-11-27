@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Describe el diseño previsto. Hoy solo existe el esqueleto de Astro.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro y el esquema de la base de datos.
 
 Todo vive en un único proyecto de Astro desplegado en Netlify. Ese proyecto habla con tres servicios externos: Neon para los datos, Cloudinary para los archivos y Resend para los correos. No hay un backend separado, y todos los servicios están en su plan gratuito.
 
@@ -27,7 +27,7 @@ Cada petición pasa primero por el middleware y luego llega a una página, una A
 - **Middleware** (`src/middleware.ts`): lee la sesión de Better Auth, guarda el usuario en `locals.user` y bloquea las rutas según el rol. `/admin/*` es solo para la administradora y `/app/*` para los inquilinos.
 - **Páginas** (`src/pages/`): se generan en el servidor con los datos ya consultados. Casi no llevan JavaScript en el navegador.
 - **Actions** (`src/actions/`): cada formulario llama a una Action, que valida los datos con Zod, revisa permisos y escribe en la base de datos.
-- **Endpoints** (`src/pages/api/`): el handler de Better Auth (`/api/auth/[...all]`) y la descarga de archivos (`/api/files/[id]`).
+- **Endpoints** (`src/pages/api/`): el handler de Better Auth (`/api/auth/[...all]`) y la descarga de archivos (`/api/files/[publicId]`).
 - **Dominio** (`src/lib/`): consultas con Drizzle, almacenamiento de archivos (storage.ts), generación del PDF firmado y envío de correos.
 
 ## Firma del contrato

@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** solo el esqueleto de Astro y la documentación. La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación y el esquema de la base de datos con su primera migración. La Fase 0 está en curso.
 
 ## Requisitos
 
@@ -16,6 +16,7 @@ Plataforma web, pensada para el celular, para administrar 3 departamentos en ren
 nvm use 24
 pnpm install
 pnpm db:up
+pnpm db:migrate
 pnpm dev
 ```
 
@@ -27,7 +28,7 @@ La app corre en tu equipo y solo PostgreSQL 17 corre en Docker, en `localhost:54
 DATABASE_URL=postgres://rentas:rentas@localhost:5432/rentas
 ```
 
-El esqueleto todavía no usa la base de datos. `pnpm db:down` detiene el contenedor y conserva los datos en el volumen `pgdata`.
+Crea el `.env` antes de ejecutar `pnpm db:migrate`. Todavía ninguna página usa la base de datos. `pnpm db:down` detiene el contenedor y conserva los datos en el volumen `pgdata`.
 
 ## Scripts
 
@@ -38,6 +39,26 @@ El esqueleto todavía no usa la base de datos. `pnpm db:down` detiene el contene
 | `pnpm build` | Compilación para producción |
 | `pnpm db:up` | Levanta PostgreSQL en Docker |
 | `pnpm db:down` | Detiene PostgreSQL |
+| `pnpm db:generate` | Genera una migración a partir de `src/lib/schema/` |
+| `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
+
+## Migraciones en producción (Neon)
+
+Se aplican a mano, antes de desplegar un cambio que las necesite. Usa la conexión **directa** de Neon (su host no contiene `-pooler`) y no la guardes en archivos. En PowerShell, ejecuta cada línea por separado:
+
+```powershell
+$env:DATABASE_URL = Read-Host "Pega la conexión directa de Neon"
+```
+
+```powershell
+pnpm db:migrate
+```
+
+```powershell
+Remove-Item Env:DATABASE_URL
+```
+
+La última se ejecuta siempre, aunque la migración falle: si la variable queda definida, el siguiente comando irá contra producción.
 
 ## Documentación
 

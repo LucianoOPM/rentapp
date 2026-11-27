@@ -16,13 +16,10 @@
 
 ## Técnicas
 
-- ¿Qué dato define el orden de los departamentos para repartir los centavos del agua? La tabla `unit` no tiene un campo de orden.
-- Definir los campos de fecha que faltan en las tablas (por ejemplo, la creación de los reportes, necesaria para mostrar el "último reporte").
 - **Fotos sin JavaScript:** cinco fotos de celular sin reducir casi nunca caben en el límite por envío. ¿Se acepta esa limitación o se permite enviar menos fotos por vez?
 - Respaldo con `pg_dump`: falta definir la frecuencia, dónde se ejecuta y dónde se guarda.
 - El adaptador de Netlify activa las sesiones de Astro sobre Netlify Blobs. No usar `Astro.session`, o cambiar su almacenamiento, para cumplir la [decisión 015](decisions/015-portability-rules.md).
 
 ## Sin verificar
 
-- La base local usa PostgreSQL 17. Al crear el proyecto de Neon, usar la misma versión mayor o ajustar `docker-compose.yml`.
 - Los límites y precios de [costos](costs.md) y las afirmaciones sobre otros proveedores en las [decisiones](decisions/README.md), salvo la cuota de correos de Resend.
