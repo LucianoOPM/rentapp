@@ -12,8 +12,7 @@
     "astro": "astro",
     "check": "astro check",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:check": "node scripts/db-check.mjs"
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.14",

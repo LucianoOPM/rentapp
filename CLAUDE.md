@@ -6,7 +6,7 @@ Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netl
 
 Usa solo pnpm. `pnpm dev`, `pnpm check`, `pnpm build`. Antes de dar un cambio por terminado, `check` y `build` deben pasar. Node 24.
 
-En desarrollo la base es la rama `dev` de Neon; no se usa Docker. Las migraciones se generan con `pnpm db:generate` y se aplican con `pnpm db:migrate`. El esquema se comprueba con `pnpm db:check`.
+En desarrollo la base es la rama `dev` de Neon; no se usa Docker. Las migraciones se generan con `pnpm db:generate` y se aplican con `pnpm db:migrate`.
 
 ## Antes de escribir código
 

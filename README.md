@@ -57,7 +57,6 @@ Después entra en <http://localhost:4321/login>.
 | `pnpm build` | Compilación para producción |
 | `pnpm db:generate` | Genera una migración a partir de `src/lib/schema/` |
 | `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
-| `pnpm db:check` | Comprueba las reglas del esquema sin dejar datos |
 | `node --test tests/password-rules.test.mjs` | Prueba las reglas del cambio de contraseña |
 
 ## Migraciones en producción (Neon)
@@ -80,7 +79,7 @@ DATABASE_URL=<conexión de dev>
    pnpm db:migrate
    ```
 
-3. Vuelve a dejar activa la de desarrollo, aunque la migración falle. Mientras siga la de producción, `pnpm dev`, `pnpm db:migrate` y `pnpm db:check` trabajan contra los datos reales.
+3. Vuelve a dejar activa la de desarrollo, aunque la migración falle. Mientras siga la de producción, `pnpm dev` y `pnpm db:migrate` trabajan contra los datos reales.
 
 ## Documentación
 
