@@ -1,6 +1,6 @@
 # 014 — Docker solo para la base de datos local
 
-**Estado:** aceptada (26 nov 2026). Reemplaza la decisión inicial "Sin Docker".
+**Estado:** reemplazada por la [decisión 016](016-neon-dev-branch.md) (27 nov 2026). Se aceptó el 26 nov 2026 y reemplazó la decisión inicial "Sin Docker".
 
 **Decisión en breve:** Docker solo para la base de datos local
 

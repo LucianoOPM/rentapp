@@ -8,27 +8,26 @@ Plataforma web, pensada para el celular, para administrar 3 departamentos en ren
 
 - Node 24 (ver `.nvmrc`)
 - pnpm 12 (la versión exacta está en `package.json`)
-- Docker, solo para la base de datos local
+- Una conexión a la rama `dev` del proyecto de Neon
 
 ## Desarrollo local
 
 ```bash
 nvm use 24
 pnpm install
-pnpm db:up
 pnpm db:migrate
 pnpm dev
 ```
 
 El sitio queda en <http://localhost:4321>.
 
-La app corre en tu equipo y solo PostgreSQL 17 corre en Docker, en `localhost:5432`, con usuario, contraseña y base `rentas`. Para conectarte, crea un archivo `.env` (no se versiona) con:
+La app corre en tu equipo y la base es la rama `dev` de Neon. Antes de ejecutar `pnpm db:migrate`, crea un archivo `.env` (no se versiona) con la conexión **directa** de esa rama (su host no contiene `-pooler`):
 
 ```
-DATABASE_URL=postgres://rentas:rentas@localhost:5432/rentas
+DATABASE_URL=postgresql://<rol>:<contraseña>@<host-de-dev>/<base>?sslmode=verify-full
 ```
 
-Crea el `.env` antes de ejecutar `pnpm db:migrate`. Todavía ninguna página usa la base de datos. `pnpm db:down` detiene el contenedor y conserva los datos en el volumen `pgdata`.
+Deja activa la conexión de `dev`; la de `production` solo se activa para migrar ([pasos](#migraciones-en-producción-neon)). Todavía ninguna página usa la base de datos.
 
 ## Scripts
 
@@ -37,28 +36,31 @@ Crea el `.env` antes de ejecutar `pnpm db:migrate`. Todavía ninguna página usa
 | `pnpm dev` | Servidor de desarrollo |
 | `pnpm check` | Revisión de tipos |
 | `pnpm build` | Compilación para producción |
-| `pnpm db:up` | Levanta PostgreSQL en Docker |
-| `pnpm db:down` | Detiene PostgreSQL |
 | `pnpm db:generate` | Genera una migración a partir de `src/lib/schema/` |
 | `pnpm db:migrate` | Aplica las migraciones a la base de `DATABASE_URL` |
+| `pnpm db:check` | Comprueba las reglas del esquema sin dejar datos |
 
 ## Migraciones en producción (Neon)
 
-Se aplican a mano, antes de desplegar un cambio que las necesite. Usa la conexión **directa** de Neon (su host no contiene `-pooler`) y no la guardes en archivos. En PowerShell 7.1 o posterior (`pwsh`; Windows PowerShell 5.1 no tiene `-MaskInput`), ejecuta cada línea por separado. La cadena no se muestra al pegarla:
+En Netlify, `DATABASE_URL` usa la conexión **con pooler** de Neon (su host contiene `-pooler`). No ejecutes `neon env pull` ni `neon deploy` sin revisar antes dónde escriben: pueden reemplazar tu `.env` local con la base de producción, porque `.neon` apunta a la rama `production`.
 
-```powershell
-$env:DATABASE_URL = Read-Host -MaskInput "Pega la conexión directa de Neon"
+Se aplican a mano, antes de desplegar un cambio que las necesite. En `.env` guarda las dos conexiones **directas** (host sin `-pooler`), cada una en su línea, y deja comentada la que no uses:
+
+```
+# Desarrollo
+DATABASE_URL=<conexión de dev>
+# Producción
+# DATABASE_URL=<conexión de production>
 ```
 
-```powershell
-pnpm db:migrate
-```
+1. Comenta la línea de desarrollo y descomenta la de producción. Debe quedar solo una activa.
+2. Revisa que la terminal no tenga ya definida `DATABASE_URL`, porque tiene prioridad sobre `.env`. Después ejecuta:
 
-```powershell
-Remove-Item Env:DATABASE_URL
-```
+   ```powershell
+   pnpm db:migrate
+   ```
 
-La última se ejecuta siempre, aunque la migración falle: si la variable queda definida, el siguiente comando irá contra producción.
+3. Vuelve a dejar activa la de desarrollo, aunque la migración falle. Mientras siga la de producción, `pnpm dev`, `pnpm db:migrate` y `pnpm db:check` trabajan contra los datos reales.
 
 ## Documentación
 

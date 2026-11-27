@@ -1,5 +1,5 @@
 -- Comprobación de las reglas del esquema. No deja datos: todo termina en ROLLBACK.
--- docker compose exec -T db psql -U rentas -d <base> -v ON_ERROR_STOP=1 < tests/schema-check.sql
+-- pnpm db:check
 BEGIN;
 
 INSERT INTO "user" (name, email) VALUES ('Prueba', 'schema-check@example.test');
@@ -44,7 +44,7 @@ DO $$
 BEGIN
   DELETE FROM unit WHERE sort_order = -1;
   RAISE EXCEPTION 'se borró un departamento con contratos';
-EXCEPTION WHEN foreign_key_violation THEN NULL;
+EXCEPTION WHEN foreign_key_violation OR restrict_violation THEN NULL;
 END $$;
 
 ROLLBACK;

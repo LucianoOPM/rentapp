@@ -11,14 +11,15 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "db:up": "docker compose up -d",
-    "db:down": "docker compose down",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:check": "node scripts/db-check.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.14",
     "@astrojs/react": "^7.1.9",
+    "@neon/config": "^1.14.8",
+    "@neon/env": "^2.1.11",
     "@tailwindcss/vite": "^4.3.5",
     "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
