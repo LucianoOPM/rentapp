@@ -1,6 +1,6 @@
 # Plataforma de rentas
 
-Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy existen el esqueleto y el esquema de la base; el resto de lo que describen los documentos todavía no está construido.
+Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy existen el esqueleto, el esquema de la base y el acceso con usuario y contraseña (sin middleware ni roles); el resto de lo que describen los documentos todavía no está construido.
 
 ## Comandos
 
