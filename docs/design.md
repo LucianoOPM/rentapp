@@ -18,7 +18,7 @@ El diseño parte del celular. Cada pantalla responde a una sola pregunta, como "
 | Ruta | Pantalla | Qué muestra y qué permite |
 | --- | --- | --- |
 | `/admin` | Panel | Una tarjeta por departamento con inquilino, saldo, comprobantes por revisar y reportes abiertos, y un botón "Avisar por WhatsApp" con el mensaje ya escrito. |
-| `/admin/departamentos/[id]` | Departamento | Inquilino y contrato, cargos y pagos, WiFi y reportes de ese departamento. |
+| `/admin/departamentos/[publicId]` | Departamento | Inquilino y contrato, cargos y pagos, WiFi y reportes de ese departamento. |
 | `/admin/inquilinos/nuevo` | Alta de inquilino | Nombre, usuario, WhatsApp y departamento. Genera una contraseña temporal y tiene un botón para enviarla por WhatsApp. Desde aquí también se restablece la contraseña. |
 | `/admin/contratos/nuevo` | Nuevo contrato | Subir PDF, fechas, renta y depósito, y enviarlo a firma. |
 | `/admin/cargos` | Cargos del mes | Formulario para los 3 departamentos a la vez: renta precargada, monto de luz y recibo de CFE de cada departamento, y un solo recibo de agua que se reparte en partes iguales entre los departamentos ocupados (cada parte se puede ajustar a mano). |

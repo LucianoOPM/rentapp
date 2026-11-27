@@ -1,12 +1,12 @@
 # Plataforma de rentas
 
-Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy solo existe el esqueleto; lo que describen los documentos todavía no está construido.
+Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy existen el esqueleto y el esquema de la base; el resto de lo que describen los documentos todavía no está construido.
 
 ## Comandos
 
 Usa solo pnpm. `pnpm dev`, `pnpm check`, `pnpm build`. Antes de dar un cambio por terminado, `check` y `build` deben pasar. Node 24.
 
-La base local es PostgreSQL en Docker (`pnpm db:up`, `pnpm db:down`). La app no se dockeriza.
+En desarrollo la base es la rama `dev` de Neon; no se usa Docker. Las migraciones se generan con `pnpm db:generate` y se aplican con `pnpm db:migrate`. El esquema se comprueba con `pnpm db:check`.
 
 ## Antes de escribir código
 
@@ -14,9 +14,11 @@ Lee [arquitectura](docs/architecture.md), [modelo de datos](docs/data-model.md),
 
 ## Reglas
 
+- Plataforma de un solo cliente con varios inquilinos; no es multi-tenant. El rol de inquilino es `renter`.
+- En URL y formularios se usa `public_id`, nunca `id`.
 - Permisos en el código: toda consulta de un inquilino pasa por `getActiveLease(user)`; nunca confíes en un id del formulario sin verificarlo. Las Actions de administración revisan `role === 'admin'` antes de cualquier otra cosa.
 - Solo la capa de dominio (`src/lib/`) habla con Neon, Cloudinary y Resend.
-- Archivos solo por `src/lib/storage.ts` y `/api/files/[id]`. El navegador nunca recibe una URL de Cloudinary.
+- Archivos solo por `src/lib/storage.ts` y `/api/files/[publicId]`. El navegador nunca recibe una URL de Cloudinary.
 - Correos solo por `sendEmail()`.
 - Driver estándar de PostgreSQL; si se usa el de Neon, aislado en `src/lib/db.ts`.
 - Sin funciones exclusivas de Netlify (Blobs, Forms, Edge Functions). Toda la configuración va en variables de entorno, documentadas en `.env.example`.
