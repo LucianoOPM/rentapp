@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos). El envío de correos está listo, pero la app todavía no lo usa.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol, la lista de departamentos en `/admin` y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos). El envío de correos está listo, pero la app todavía no lo usa.
 
 Todo vive en un único proyecto de Astro desplegado en Netlify. Ese proyecto habla con tres servicios externos: Neon para los datos, Cloudinary para los archivos y Resend para los correos. No hay un backend separado, y todos los servicios están en su plan gratuito.
 
@@ -47,7 +47,9 @@ La generación del PDF firmado va en la capa de dominio.
 
 ## Acceso
 
-Los formularios de acceso, cambio de contraseña y cierre de sesión llaman a Actions, que usan `AuthService` (este llama a `auth.api`) y trasladan la cookie de sesión. El registro está cerrado. Por HTTP están desactivadas `/api/auth/change-password` (el cambio pasa por la app para actualizar `must_change_password`), `/api/auth/update-user` y `/api/auth/is-username-available`.
+Los formularios de acceso, cambio de contraseña y cierre de sesión llaman a Actions, que usan `AuthService` y trasladan la cookie de sesión. El registro está cerrado. Por HTTP están desactivadas `/api/auth/change-password` (el cambio pasa por la app para actualizar `must_change_password`), `/api/auth/update-user`, `/api/auth/is-username-available` y `/api/auth/sign-in/email`.
+
+El acceso va por `auth.handler`, porque las llamadas a `auth.api` no aplican el límite de intentos de Better Auth; lo demás usa `auth.api`. El límite es de 5 intentos por IP, correctos incluidos, y se libera tras 60 segundos sin intentos aceptados. El contador está en la tabla `rate_limit`. La IP sale de `Astro.clientAddress`: `AuthService` la escribe en el header `x-client-ip` y reemplaza la que mande el navegador.
 
 ## Firma del contrato
 

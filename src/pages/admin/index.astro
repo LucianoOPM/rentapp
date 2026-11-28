@@ -2,6 +2,9 @@
 import { actions } from 'astro:actions';
 import LogoutForm from '@components/LogoutForm.astro';
 import Layout from '@layouts/Layout.astro';
+import { unitService } from '@lib/container';
+
+const units = await unitService.list();
 
 const logout = Astro.getActionResult(actions.logout);
 if (logout && !logout.error) return Astro.redirect('/login');
@@ -11,5 +14,9 @@ if (logout && !logout.error) return Astro.redirect('/login');
 	<h1 class="text-2xl font-bold">Panel</h1>
 	{logout?.error && <p role="alert" class="mt-4 text-red-700">{logout.error.message}</p>}
 	<p class="mt-4">Hola, {Astro.locals.user?.name}.</p>
+	<h2 class="mt-6 text-lg font-bold">Departamentos</h2>
+	<ul class="mt-2 mb-6 list-disc pl-5">
+		{units.map((unit) => <li>{unit.name}</li>)}
+	</ul>
 	<LogoutForm />
 </Layout>

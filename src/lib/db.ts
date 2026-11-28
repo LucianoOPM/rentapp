@@ -8,6 +8,7 @@ import * as lease from '@lib/schema/lease';
 import * as maintenanceReport from '@lib/schema/maintenance-report';
 import * as payment from '@lib/schema/payment';
 import * as paymentCharge from '@lib/schema/payment-charge';
+import * as rateLimit from '@lib/schema/rate-limit';
 import * as reportPhoto from '@lib/schema/report-photo';
 import * as session from '@lib/schema/session';
 import * as unit from '@lib/schema/unit';
@@ -23,6 +24,7 @@ const schema = {
   ...maintenanceReport,
   ...payment,
   ...paymentCharge,
+  ...rateLimit,
   ...reportPhoto,
   ...session,
   ...unit,

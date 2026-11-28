@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con sus migraciones (incluida la de datos iniciales) y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales) y la descarga de archivos privados guardados en Cloudinary. La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con sus migraciones (incluida la de datos iniciales) y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal y limita los intentos, y la protección de `/admin` y `/app` por rol (con páginas provisionales; `/admin` ya lista los departamentos) y la descarga de archivos privados guardados en Cloudinary. La Fase 0 está en curso.
 
 ## Requisitos
 

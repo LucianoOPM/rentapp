@@ -1,6 +1,6 @@
 # Permisos y archivos
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos).
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol, la lista de departamentos en `/admin` y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos).
 
 ## Permisos
 
@@ -9,6 +9,10 @@ No hay Row Level Security, así que los permisos se revisan en el código:
 - Toda consulta de un inquilino pasa por una función `getActiveLease(user)` y filtra por ese contrato o ese departamento. Nunca se usa un identificador que venga del formulario sin verificarlo. Las URL y los formularios usan `public_id`, nunca `id`.
 - Las Actions de administración revisan `role === 'admin'` antes de hacer cualquier cosa.
 - Los archivos se descargan solo por `/api/files/[publicId]`: el endpoint busca el `public_id` en la tabla `file`, revisa que el archivo pertenezca al usuario y descarga el archivo de Cloudinary con una URL firmada y se lo reenvía al navegador. Todos los archivos se suben con type authenticated, así que no se pueden abrir sin firma.
+
+## Límite de intentos
+
+El acceso admite 5 intentos por IP y se libera tras 60 segundos sin intentos aceptados ([detalles](architecture.md#acceso)). No frena un ataque repartido entre muchas IP: ahí la defensa es una contraseña fuerte. Quienes comparten IP comparten el contador.
 
 ## Contratos y acceso
 

@@ -1,6 +1,6 @@
 # Plataforma de rentas
 
-Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy existen el esqueleto, el esquema de la base, el acceso con usuario y contraseña y el middleware que protege `/admin` y `/app` por rol (con páginas provisionales), el almacenamiento privado en Cloudinary y la descarga por `/api/files/[publicId]` (todavía sin pantallas para subir archivos) y el envío de correos con Resend (todavía sin usarse en la app); el resto de lo que describen los documentos todavía no está construido.
+Astro (`output: 'server'`) + TypeScript + Tailwind + React (solo islas), en Netlify. Hoy existen el esqueleto, el esquema de la base, el acceso con usuario y contraseña y el middleware que protege `/admin` y `/app` por rol (con páginas provisionales; `/admin` ya lista los departamentos), el almacenamiento privado en Cloudinary y la descarga por `/api/files/[publicId]` (todavía sin pantallas para subir archivos) y el envío de correos con Resend (todavía sin usarse en la app); el resto de lo que describen los documentos todavía no está construido.
 
 ## Comandos
 
