@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos). El envío de correos está listo, pero la app todavía no lo usa.
+> Describe el diseño previsto. Hoy solo existen el esqueleto de Astro, el esquema de la base de datos, el acceso con usuario y contraseña, la protección de rutas por rol, la lista de departamentos en `/admin` y el almacenamiento y la descarga de archivos (todavía sin pantallas para subirlos). El envío de correos está listo, pero la app todavía no lo usa.
 
 Todo vive en un único proyecto de Astro desplegado en Netlify. Ese proyecto habla con tres servicios externos: Neon para los datos, Cloudinary para los archivos y Resend para los correos. No hay un backend separado, y todos los servicios están en su plan gratuito.
 
