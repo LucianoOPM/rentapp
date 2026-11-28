@@ -1,6 +1,6 @@
 # Decisiones
 
-Todas las decisiones se aceptaron el 26 nov 2026 con un mismo criterio: lo más simple que funcione para 3 departamentos y una sola administradora. Cada una se puede revisar si el uso real lo pide.
+Las decisiones 001 a 015 se aceptaron el 26 nov 2026 con un mismo criterio: lo más simple que funcione para 3 departamentos y una sola administradora. Cada una se puede revisar si el uso real lo pide.
 
 | # | Decisión | Descartado |
 | --- | --- | --- |
@@ -17,5 +17,7 @@ Todas las decisiones se aceptaron el 26 nov 2026 con un mismo criterio: lo más 
 | [011](011-wifi-per-unit.md) | WiFi: una red por departamento con contraseña manual | Portal cautivo, API de Omada, QR en la plataforma |
 | [012](012-whatsapp-notices.md) | Avisos a inquilinos por WhatsApp | WhatsApp Cloud API |
 | [013](013-netlify-free.md) | Hosting en Netlify Free | Vercel Hobby, Cloudflare Workers Free, Railway Free |
-| [014](014-docker-database-only.md) | Docker solo para la base de datos local | Dockerizar la app, rama de desarrollo en Neon |
+| [014](014-docker-database-only.md) | Docker solo para la base de datos local (reemplazada por la 016) | Dockerizar la app, rama de desarrollo en Neon |
 | [015](015-portability-rules.md) | Reglas de portabilidad entre proveedores | Llamar a cada proveedor desde cualquier parte del código |
+| [016](016-neon-dev-branch.md) | Rama `dev` de Neon para desarrollo, sin Docker | PostgreSQL local en Docker |
+| [017](017-layers-dependency-injection.md) | Controlador, servicio y repositorio, con inyección por constructor | Consultas dentro de la lógica de negocio, contenedor de inyección con librería |

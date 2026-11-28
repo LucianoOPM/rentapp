@@ -1,0 +1,31 @@
+---
+import { actions, isInputError } from 'astro:actions';
+import Field from '@components/Field.astro';
+import LogoutForm from '@components/LogoutForm.astro';
+import Layout from '@layouts/Layout.astro';
+
+// Sin sesión no se llega aquí: lo impide el middleware.
+const result = Astro.getActionResult(actions.changePassword);
+if (result && !result.error) return Astro.redirect('/');
+
+const logout = Astro.getActionResult(actions.logout);
+if (logout && !logout.error) return Astro.redirect('/login');
+
+if (result?.error?.code === 'UNAUTHORIZED') return Astro.redirect('/login');
+
+const fields = isInputError(result?.error) ? result.error.fields : undefined;
+const message = logout?.error?.message ?? (result?.error && !fields ? result.error.message : undefined);
+---
+
+<Layout title="Cambiar contraseña">
+	<h1 class="mb-2 text-2xl font-bold">Cambia tu contraseña</h1>
+	<p class="mb-4">Elige una de al menos 8 caracteres, distinta de la actual.</p>
+	{message && <p role="alert" class="mb-4 text-red-700">{message}</p>}
+	<form method="POST" action={actions.changePassword} class="space-y-4">
+		<Field name="currentPassword" label="Contraseña actual" type="password" autocomplete="current-password" errors={fields?.currentPassword} />
+		<Field name="newPassword" label="Nueva contraseña" type="password" autocomplete="new-password" minlength="8" errors={fields?.newPassword} />
+		<Field name="confirmPassword" label="Repite la nueva contraseña" type="password" autocomplete="new-password" minlength="8" errors={fields?.confirmPassword} />
+		<button class="min-h-11 w-full rounded bg-blue-700 px-4 text-base font-medium text-white">Guardar contraseña</button>
+	</form>
+	<LogoutForm />
+</Layout>
