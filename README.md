@@ -2,7 +2,7 @@
 
 Plataforma web, pensada para el celular, para administrar 3 departamentos en renta. Tiene dos tipos de usuario: la administradora y los inquilinos.
 
-**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con su primera migración y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales) y la descarga de archivos privados guardados en Cloudinary. La Fase 0 está en curso.
+**Estado actual:** el esqueleto de Astro, la documentación, el esquema de la base de datos con sus migraciones (incluida la de datos iniciales) y el acceso con usuario y contraseña, que pide cambiar la contraseña temporal, y la protección de `/admin` y `/app` por rol (con páginas provisionales) y la descarga de archivos privados guardados en Cloudinary. La Fase 0 está en curso.
 
 ## Requisitos
 
@@ -46,7 +46,15 @@ Para generar el secreto:
 node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"
 ```
 
-El registro está cerrado. Para crear un usuario de prueba en `dev` (el script muestra el host de la base y pide confirmación):
+### Datos iniciales
+
+`pnpm db:migrate` crea los 3 departamentos y la cuenta de la administradora (usuario `admin`). La contraseña temporal no está en el repositorio, solo su hash: la guarda quien opera el proyecto. Es la misma en todas las bases nuevas, así que cámbiala en el primer acceso de cada una; en producción, en cuanto la app esté disponible.
+
+Antes de migrar una base que ya tenga datos, revisa que no tenga departamentos ni el usuario `admin`. Si hay un choque, la migración falla.
+
+### Usuarios de prueba
+
+El registro está cerrado. Para crear un inquilino de prueba en `dev` (el script muestra el host de la base y pide confirmación):
 
 ```bash
 node scripts/create-test-user.mjs <usuario> <contraseña-temporal>
