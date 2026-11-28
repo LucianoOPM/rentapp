@@ -26,7 +26,7 @@ export const server = {
             message: 'Demasiados intentos. Espera un minuto e inténtalo de nuevo.',
           });
         }
-        if (error instanceof LoginError && error.status < 500) {
+        if (error instanceof LoginError && error.isBadCredentials) {
           throw new ActionError({ code: 'UNAUTHORIZED', message: 'Usuario o contraseña incorrectos.' });
         }
         throw unexpected(error);

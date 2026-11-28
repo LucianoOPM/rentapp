@@ -72,6 +72,12 @@ for (const status of [401, 429, 500]) {
   });
 }
 
+test('solo 400, 401 y 422 cuentan como credenciales incorrectas', () => {
+  for (const status of [400, 401, 422]) assert.equal(new LoginError(status).isBadCredentials, true, String(status));
+  // Un 403 por origen o un 404 son fallas de configuración, no una contraseña mala.
+  for (const status of [403, 404, 429, 500]) assert.equal(new LoginError(status).isBadCredentials, false, String(status));
+});
+
 test('handle reemplaza la IP en las peticiones HTTP de Better Auth y conserva el cuerpo', async () => {
   let sent;
   const { service } = setup({}, async (request) => {

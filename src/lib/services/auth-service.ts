@@ -10,6 +10,11 @@ export class LoginError extends Error {
     super(`Falló el acceso (HTTP ${status})`);
     this.status = status;
   }
+
+  /** Un 403 (origen) o un 404 son fallas de configuración, no una contraseña mala. */
+  get isBadCredentials() {
+    return [400, 401, 422].includes(this.status);
+  }
 }
 
 // El límite de intentos cuenta por esta IP: `set` reemplaza lo que haya mandado el cliente.
