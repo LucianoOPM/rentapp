@@ -15,6 +15,7 @@ Los montos se guardan en centavos (enteros) y las fechas en UTC. Se muestran en 
 | Tabla | Campos principales | Notas |
 | --- | --- | --- |
 | `user`, `session`, `account`, `verification` | Las crea Better Auth, más `username`, `display_username`, `role` (`admin` o `renter`; por defecto `renter`), `phone` (WhatsApp) y `must_change_password` | Solo la administradora puede crear inquilinos. El correo es solo para la administradora. |
+| `rate_limit` | `key`, `count`, `last_request` | Contador del límite de intentos de Better Auth. `key` combina IP y ruta; `last_request` va en milisegundos. No es del negocio, así que no tiene `public_id` ni `created_at`. |
 | `file` | `provider`, `key`, `mime_type`, `size_bytes` | Registro de cada archivo. Las demás tablas la referencian y `/api/files/[publicId]` usa su `public_id`. Nunca guarda la URL del proveedor. |
 | `unit` | `name`, `sort_order`, `wifi_ssid`, `wifi_password_enc`, `notes` | Un registro por departamento (3). `sort_order` es único y define el orden para repartir el agua. |
 | `lease` | `unit_id`, `renter_id`, `start_date`, `end_date`, `rent_cents`, `deposit_cents`, `status`, `original_file_id`, `signed_file_id`, `original_sha256`, `signed_at`, `signer_ip`, `signer_user_agent` | `status`: `draft` (borrador), `pending_signature` (por firmar), `signed` (firmado), `terminated` (terminado). Solo puede haber un contrato activo por departamento (ver "Contratos"). |

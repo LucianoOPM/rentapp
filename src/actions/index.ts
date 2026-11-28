@@ -3,6 +3,7 @@ import { APIError } from 'better-auth/api';
 import { applyAuthCookies } from '@lib/auth-cookies';
 import { authService } from '@lib/container';
 import { changePasswordInput, loginInput } from '@lib/password-rules';
+import { LoginError } from '@lib/services/auth-service';
 
 const unexpected = (error: unknown) => {
   console.error(error);
@@ -15,11 +16,17 @@ export const server = {
     input: loginInput,
     handler: async (input, context) => {
       try {
-        const { headers, mustChangePassword } = await authService.login(input, context.request.headers);
+        const { headers, mustChangePassword } = await authService.login(input, context.request, context.clientAddress);
         applyAuthCookies(headers, context.cookies);
         return { mustChangePassword };
       } catch (error) {
-        if (error instanceof APIError && error.statusCode < 500) {
+        if (error instanceof LoginError && error.status === 429) {
+          throw new ActionError({
+            code: 'TOO_MANY_REQUESTS',
+            message: 'Demasiados intentos. Espera un minuto e inténtalo de nuevo.',
+          });
+        }
+        if (error instanceof LoginError && error.status < 500) {
           throw new ActionError({ code: 'UNAUTHORIZED', message: 'Usuario o contraseña incorrectos.' });
         }
         throw unexpected(error);

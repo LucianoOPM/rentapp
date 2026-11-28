@@ -10,6 +10,10 @@ No hay Row Level Security, así que los permisos se revisan en el código:
 - Las Actions de administración revisan `role === 'admin'` antes de hacer cualquier cosa.
 - Los archivos se descargan solo por `/api/files/[publicId]`: el endpoint busca el `public_id` en la tabla `file`, revisa que el archivo pertenezca al usuario y descarga el archivo de Cloudinary con una URL firmada y se lo reenvía al navegador. Todos los archivos se suben con type authenticated, así que no se pueden abrir sin firma.
 
+## Límite de intentos
+
+El acceso admite 5 intentos por IP y se libera tras 60 segundos sin intentos aceptados ([detalles](architecture.md#acceso)). No frena un ataque repartido entre muchas IP: ahí la defensa es una contraseña fuerte. Quienes comparten IP comparten el contador.
+
 ## Contratos y acceso
 
 - "Activo" y "vigente" se definen en el [modelo de datos](data-model.md#contratos). El WiFi exige un contrato vigente.

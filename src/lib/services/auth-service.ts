@@ -2,6 +2,23 @@
 import type { auth } from '@lib/auth';
 import type { UserRepository } from '@lib/repositories/user-repository';
 
+/** El handler rechazó el acceso; `status` es el código HTTP. */
+export class LoginError extends Error {
+  readonly status: number;
+
+  constructor(status: number) {
+    super(`Falló el acceso (HTTP ${status})`);
+    this.status = status;
+  }
+}
+
+// El límite de intentos cuenta por esta IP: `set` reemplaza lo que haya mandado el cliente.
+const withClientIp = (headers: Headers, clientIp: string) => {
+  const copy = new Headers(headers);
+  copy.set('x-client-ip', clientIp);
+  return copy;
+};
+
 export class AuthService {
   readonly #auth: Pick<typeof auth, 'api' | 'handler'>;
   readonly #users: UserRepository;
@@ -11,8 +28,8 @@ export class AuthService {
     this.#users = users;
   }
 
-  handle(request: Request) {
-    return this.#auth.handler(request);
+  handle(request: Request, clientIp: string) {
+    return this.#auth.handler(new Request(request, { headers: withClientIp(request.headers, clientIp) }));
   }
 
   getSession(headers: Headers) {
@@ -25,12 +42,20 @@ export class AuthService {
   }
 
   /** Los headers devueltos traen la cookie de la sesión nueva. */
-  async login(credentials: { username: string; password: string }, requestHeaders: Headers) {
-    const { headers } = await this.#auth.api.signInUsername({
-      body: credentials,
-      headers: requestHeaders,
-      returnHeaders: true,
-    });
+  async login(credentials: { username: string; password: string }, request: Request, clientIp: string) {
+    // Va por `handler`: las llamadas a `auth.api` no pasan por el límite de intentos.
+    const requestHeaders = withClientIp(request.headers, clientIp);
+    requestHeaders.delete('content-length');
+    requestHeaders.set('content-type', 'application/json');
+    const response = await this.#auth.handler(
+      new Request(new URL('/api/auth/sign-in/username', request.url), {
+        method: 'POST',
+        headers: requestHeaders,
+        body: JSON.stringify(credentials),
+      }),
+    );
+    if (!response.ok) throw new LoginError(response.status);
+    const { headers } = response;
     // La respuesta del acceso no tipa los campos propios; se leen de la sesión recién creada.
     const cookie = headers.getSetCookie().map((c) => c.split(';')[0]).join('; ');
     const session = await this.getSession(new Headers({ cookie }));
